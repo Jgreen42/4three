@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fibonacci Sequence</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      canvas {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.120.1/build/three.js"></script>
+    <script>
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+var renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("myCanvas") });
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
+
+var material = new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  wireframe: true
+});
+
+var geometry = new THREE.PlaneGeometry( 10, 10, 100, 100 );
+var mesh = new THREE.Mesh( geometry, material );
+scene.add( mesh );
+
+camera.position.z = 5;
+
+var animate = function () {
+  requestAnimationFrame( animate );
+
+  for ( var i = 0; i < mesh.geometry.vertices.length; i++ ) {
+    var vertex = mesh.geometry.vertices[i];
+    vertex.z = 1 * Math.sin( ( vertex.x + Date.now() ) * 0.06 * Math.PI * 48 );
+  }
+
+  mesh.geometry.verticesNeedUpdate = true;
+  renderer.render( scene, camera );
+};
+
+animate();
+
+    </script>
+  </body>
+</html>
